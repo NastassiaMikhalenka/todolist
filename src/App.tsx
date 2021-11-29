@@ -20,6 +20,7 @@ function App() {
         {id: v1(), title: "REACT", isDone: false}
     ]
 
+
     const [tasks, setTasks] = useState<Array<TaskType>>(initialState)
     // const tasks = result[0]
     // const setTasks = result[1]
@@ -47,6 +48,15 @@ function App() {
         setTasks([newTask, ...tasks])
     }
 
+    const changeTaskStatus = (id: string, isDone: boolean) => {
+        setTasks(tasks.map(elem => {
+            if(elem.id === id){
+                return {...elem, isDone: isDone}
+            }
+            return elem
+        }))
+    }
+
     let taskForRender = tasks
     if(filter === "Active"){
         taskForRender = tasks.filter(elem => !elem.isDone)
@@ -62,6 +72,8 @@ function App() {
                 removeTask={removeTask}
                 filterTask={filterTask}
                 addTask={addTask}
+                filter={filter}
+                changeTaskStatus={changeTaskStatus}
             />
         </div>
     );

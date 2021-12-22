@@ -1,21 +1,20 @@
 .App {
-  padding: 30px;
-  display: flex;
+  /*padding: 30px;*/
+  /*display: flex;*/
 }
 
-.App > div {
-  margin-right: 50px;
+.appContainer{
+    display: flex;
 }
+/*.is-Done {*/
+/*   opacity: 0.4;*/
+/*}*/
 
-.is-Done {
-   opacity: 0.4;
-}
+/*.activeFilterBtn {*/
+/*    background-color: salmon;*/
+/*}*/
 
-.activeFilterBtn {
-    background-color: salmon;
-}
-
-.error{
-    outline: none;
-    border: red solid 1px;
-}
+/*.error{*/
+/*    outline: none;*/
+/*    border: red solid 1px;*/
+/*}*/

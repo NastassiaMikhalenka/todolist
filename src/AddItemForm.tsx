@@ -1,4 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 type PropsType = {
     callback: (title: string) =>void
@@ -7,7 +9,7 @@ type PropsType = {
 export const AddItemForm = (props: PropsType) => {
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<boolean>(false)
-    const errorMessage = error ? <div>Title is required</div> : null
+    // const errorMessage = error ? <div>Title is required</div> : null
 
     const addTask = () => {
         const newTitle = title.trim()
@@ -30,14 +32,22 @@ export const AddItemForm = (props: PropsType) => {
 
     return (
         <div>
-            <input
-                className={error ? "error" : ""}
-                value={title}
-                onChange={changeTitle}
-                onKeyPress={onKeyPress}
-            />
-            <button onClick={addTask}>+</button>
-            {errorMessage}
+            {/*<input*/}
+            {/*    className={error ? "error" : ""}*/}
+            {/*    value={title}*/}
+            {/*    onChange={changeTitle}*/}
+            {/*    onKeyPress={onKeyPress}*/}
+            {/*/>*/}
+            <TextField id="outlined-basic" label={error ? "Title is required" : "Enter new task name"} variant="outlined"
+                       className={error ? "error" : ""}
+                       value={title}
+                       error={!!error}
+                       size="small"
+                       onChange={changeTitle}
+                       onKeyPress={onKeyPress}/>
+            {/*<button onClick={addTask}>+</button>*/}
+            <Button variant="contained" size="small" onClick={addTask}>+</Button>
+            {/*{errorMessage}*/}
         </div>
     )
 }

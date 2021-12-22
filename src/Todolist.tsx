@@ -3,6 +3,9 @@ import {FilterValueType, TaskType} from "./App";
 import './App.css';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
 
 type TodolistType = {
     title: string
@@ -45,9 +48,9 @@ export function Todolist(props: TodolistType) {
     const setActive = () => props.filterTask(props.todolistId, "Active")
     const setCompleted = () => props.filterTask(props.todolistId, "Completed")
 
-    const getBtnClass = (filter: FilterValueType) => {
-        return props.filter === filter ? "activeFilterBtn" : ''
-    }
+    // const getBtnClass = (filter: FilterValueType) => {
+    //     return props.filter === filter ? "outlined" : 'contained'
+    // } // можно прописать здесь классы для фильтра
 
     // const errorMessage = error ? <div>Title is required</div> : null
     const callbackTitleTaskHandler = (title: string) => {
@@ -73,14 +76,22 @@ export function Todolist(props: TodolistType) {
                     onChange={changeStatus}/>
                 <EditableSpan title={elem.title} callback={callbackHandlerSpan}/>
                 {/*<span>{elem.title}</span>*/}
-                <button onClick={() => props.removeTask(props.todolistId, elem.id)}>X</button>
+                <IconButton aria-label="delete"
+                            onClick={() => props.removeTask(props.todolistId, elem.id)}>
+                    <DeleteIcon/>
+                </IconButton>
+                {/*<button onClick={() => props.removeTask(props.todolistId, elem.id)}>X</button>*/}
             </li>
         )
     })
     return (
         <div>
             <EditableSpan title={props.title} callback={callbackTitleTodoListHandler} />
-            <button onClick={() => props.removeTodoList(props.todolistId)}>X</button>
+            {/*<button onClick={() => props.removeTodoList(props.todolistId)}>X</button>*/}
+            <IconButton aria-label="delete"
+                        onClick={() => props.removeTodoList(props.todolistId)}>
+                <DeleteIcon/>
+            </IconButton>
             <AddItemForm callback={callbackTitleTaskHandler}/>
             {/*<div>*/}
             {/*    <input*/}
@@ -96,18 +107,12 @@ export function Todolist(props: TodolistType) {
                 {tasksJsx}
             </ul>
             <div>
-                <button
-                    className={getBtnClass("All")}
-                    onClick={setAll}>All
-                </button>
-                <button
-                    className={getBtnClass("Active")}
-                    onClick={setActive}>Active
-                </button>
-                <button
-                    className={getBtnClass("Completed")}
-                    onClick={setCompleted}>Completed
-                </button>
+                <Button variant={props.filter === "All" ? "contained" : "outlined"} color="error" onClick={setAll}>All</Button>
+                <Button variant={props.filter === "Active" ? "contained" : "outlined"} color="secondary" onClick={setActive}>Active</Button>
+                <Button variant={props.filter === "Completed" ? "contained" : "outlined"} color="success" onClick={setCompleted}>Completed</Button>
+                {/*<button className={getBtnClass("All")} onClick={setAll}>All</button>*/}
+                {/*<button className={getBtnClass("Active")} onClick={setActive}>Active</button>*/}
+                {/*<button className={getBtnClass("Completed")} onClick={setCompleted}>Completed</button>*/}
             </div>
         </div>
     );

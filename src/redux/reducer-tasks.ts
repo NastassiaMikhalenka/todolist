@@ -9,15 +9,23 @@ type ActionsType =
     | removeAllTasksACType
     | addArrayTasksACType
 
+const REMOVE_TASK = "REMOVE_TASK";
+const ADD_TASK = "ADD_TASK";
+const CHANGE_STATUS = "CHANGE_STATUS";
+const CHANGE_TASK_TITLE = "CHANGE_TASK_TITLE";
+const REMOVE_ALL_TASKS = "REMOVE_ALL_TASKS";
+const ADD_ARRAY_TASKS = "ADD_ARRAY_TASKS";
+
+
 export const TaskReducer = (state: TasksStateType, action: ActionsType) => {
     switch (action.type) {
-        case "REMOVE_TASK": {
+        case REMOVE_TASK: {
             return {
                 ...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].filter(f => f.id !== action.payload.id)
             }
         }
-        case "ADD_TASK": {
+        case ADD_TASK: {
             return {
                 ...state,
                 [action.payload.todolistId]: [{
@@ -27,7 +35,7 @@ export const TaskReducer = (state: TasksStateType, action: ActionsType) => {
                 }, ...state[action.payload.todolistId]]
             }
         }
-        case "CHANGE_STATUS": {
+        case CHANGE_STATUS: {
             return {
                 ...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].map(m => m.id === action.payload.id ? {
@@ -36,7 +44,7 @@ export const TaskReducer = (state: TasksStateType, action: ActionsType) => {
                 } : m)
             }
         }
-        case "CHANGE_TASK_TITLE": {
+        case CHANGE_TASK_TITLE: {
             // const newTest = {
             //     [action.payload.todolistId]: state[action.payload.todolistId].map(m => {
             //         //  console.log(m.id === action.payload.todolistId )
@@ -61,12 +69,12 @@ export const TaskReducer = (state: TasksStateType, action: ActionsType) => {
                 } : m),
             }
         }
-        case "REMOVE_ALL_TASKS": {
+        case REMOVE_ALL_TASKS: {
             let copyTasks = {...state}
             delete copyTasks[action.payload.todolistId]
             return copyTasks
         }
-        case "ADD_ARRAY_TASKS": {
+        case ADD_ARRAY_TASKS: {
             return {
                 ...state,
                 [action.payload.newTodolistId]: []

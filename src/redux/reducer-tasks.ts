@@ -37,12 +37,28 @@ export const TaskReducer = (state: TasksStateType, action: ActionsType) => {
             }
         }
         case "CHANGE_TASK_TITLE": {
+            // const newTest = {
+            //     [action.payload.todolistId]: state[action.payload.todolistId].map(m => {
+            //         //  console.log(m.id === action.payload.todolistId )
+            //         //    console.log(`${m.id} - ${ action.payload.todolistId}`)
+            //         return m.id === action.payload.id ? {
+            //             ...m,
+            //             title: action.payload.localTitle
+            //         } : m
+            //     })
+            // }
+            // const test = {
+            //     ...state,
+            //     ...newTest
+            // }
+            // console.log(action.payload)
+            // console.log(test)
             return {
-                [action.payload.todolistId]: state[action.payload.todolistId].map(m => m.id === action.payload.todolistId ? {
+                ...state,
+                [action.payload.todolistId]: state[action.payload.todolistId].map(m => m.id === action.payload.id ? {
                     ...m,
                     title: action.payload.localTitle
                 } : m),
-                ...state
             }
         }
         case "REMOVE_ALL_TASKS": {
@@ -70,7 +86,7 @@ export const removeTaskAC = (todolistId: string, id: string) => {
             id: id
         },
     } as const
-}
+} // тест сделан
 
 type addTaskACType = ReturnType<typeof addTaskAC>
 export const addTaskAC = (todolistId: string, newTaskTitle: string) => {
@@ -81,7 +97,7 @@ export const addTaskAC = (todolistId: string, newTaskTitle: string) => {
             newTaskTitle: newTaskTitle
         },
     } as const
-}
+} // тест сделан
 
 type changeStatusACType = ReturnType<typeof changeStatusAC>
 export const changeStatusAC = (todolistId: string, id: string, isDone: boolean) => {
@@ -93,19 +109,19 @@ export const changeStatusAC = (todolistId: string, id: string, isDone: boolean) 
             isDone: isDone
         },
     } as const
-}
+} // тест сделан
 
 type changeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>
-export const changeTaskTitleAC = (id: string, localTitle: string, todolistId: string) => {
+export const changeTaskTitleAC = (todolistId: string, localTitle: string, id: string) => {
     return {
         type: "CHANGE_TASK_TITLE",
         payload: {
-            id: id,
+            todolistId: todolistId,
             localTitle: localTitle,
-            todolistId: todolistId
+            id: id
         },
     } as const
-}
+} // тест сделан
 
 type removeAllTasksACType = ReturnType<typeof removeAllTasksAC>
 export const removeAllTasksAC = (todolistId: string) => {
@@ -125,4 +141,4 @@ export const addArrayTasksAC = (newTodolistId: string) => {
             newTodolistId: newTodolistId
         },
     } as const
-}
+} // тест сделан

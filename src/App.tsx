@@ -40,8 +40,8 @@ export type TasksStateType = {
 }
 
 function App() {
-    let todolistID1=v1();
-    let todolistID2=v1();
+    let todolistID1 = v1();
+    let todolistID2 = v1();
 
     const [stateTodolists, dispatchTodolists] = useReducer(TodolistReducer, [
         {id: todolistID1, title: 'What to learn', filter: 'All'},
@@ -49,14 +49,14 @@ function App() {
     ])
 
     const [stateTasks, dispatchTasks] = useReducer(TaskReducer, {
-        [todolistID1]:[
+        [todolistID1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
             {id: v1(), title: "ReactJS", isDone: false},
             {id: v1(), title: "Rest API", isDone: false},
             {id: v1(), title: "GraphQL", isDone: false},
         ],
-        [todolistID2]:[
+        [todolistID2]: [
             {id: v1(), title: "HTML&CSS2", isDone: true},
             {id: v1(), title: "JS2", isDone: true},
             {id: v1(), title: "ReactJS2", isDone: false},
@@ -132,9 +132,9 @@ function App() {
         // setTodolists([newTodoList, ...todolists])
         // setTasks({...tasks, [newTodoList.id]: []})
     }
-    const updateTitleTask = (todolistId: string, localTitle: string,  id: string) => {
+    const updateTitleTask = (todolistId: string, localTitle: string, id: string) => {
         dispatchTasks(changeTaskTitleAC(todolistId, localTitle, id))
-        // setTasks({...tasks, [todolistId]: tasks[todolistId].map(m => m.id === todolistId ? {...m, title: localTitle} : m)})
+        // setTasks({...tasks, [todolistId]: tasks[todolistId].map(m => m.id === id ? {...m, title: localTitle} : m)})
     }
 
     const updateTitleTodoList = (todolistId: string, localTitle: string) => {
@@ -151,33 +151,34 @@ function App() {
                 </Grid>
                 <Grid container spacing={3}>
                     {stateTodolists.map(tl => {
-                            let taskForRender = stateTasks[tl.id]
-                            if(tl.filter === "Active"){
-                                taskForRender = stateTasks[tl.id].filter(elem => !elem.isDone)
-                            } if(tl.filter === "Completed"){
-                                taskForRender = stateTasks[tl.id].filter(elem => elem.isDone)
-                            }
-                            return (
-                                <Grid item>
-                                    <Paper style={{padding: "10px"}}>
-                                <Todolist
-                                    key={tl.id}
-                                    todolistId={tl.id}
-                                    title={tl.title}
-                                    tasks={taskForRender}
-                                    removeTask={removeTask}
-                                    filterTask={filterTask}
-                                    addTask={addTask}
-                                    filter={tl.filter}
-                                    changeTaskStatus={changeTaskStatus}
-                                    removeTodoList={removeTodoList}
-                                    updateTitleTask={updateTitleTask}
-                                    updateTitleTodoList={updateTitleTodoList}
-                                />
-                                    </Paper>
-                                </Grid>
-                            )
-                        })}
+                        let taskForRender = stateTasks[tl.id]
+                        if (tl.filter === "Active") {
+                            taskForRender = stateTasks[tl.id].filter(elem => !elem.isDone)
+                        }
+                        if (tl.filter === "Completed") {
+                            taskForRender = stateTasks[tl.id].filter(elem => elem.isDone)
+                        }
+                        return (
+                            <Grid item>
+                                <Paper style={{padding: "10px"}}>
+                                    <Todolist
+                                        key={tl.id}
+                                        todolistId={tl.id}
+                                        title={tl.title}
+                                        tasks={taskForRender}
+                                        removeTask={removeTask}
+                                        filterTask={filterTask}
+                                        addTask={addTask}
+                                        filter={tl.filter}
+                                        changeTaskStatus={changeTaskStatus}
+                                        removeTodoList={removeTodoList}
+                                        updateTitleTask={updateTitleTask}
+                                        updateTitleTodoList={updateTitleTodoList}
+                                    />
+                                </Paper>
+                            </Grid>
+                        )
+                    })}
                 </Grid>
             </Container>
         </div>

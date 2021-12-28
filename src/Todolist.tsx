@@ -88,7 +88,7 @@ export function Todolist(props: TodolistType) {
         <div>
             <EditableSpan title={props.title} callback={callbackTitleTodoListHandler} />
             {/*<button onClick={() => props.removeTodoList(props.todolistId)}>X</button>*/}
-            <IconButton aria-label="delete"
+            <IconButton size="small" aria-label="delete"
                         onClick={() => props.removeTodoList(props.todolistId)}>
                 <DeleteIcon/>
             </IconButton>
@@ -107,9 +107,9 @@ export function Todolist(props: TodolistType) {
                 {tasksJsx}
             </ul>
             <div>
-                <Button variant={props.filter === "All" ? "contained" : "outlined"} color="error" onClick={setAll}>All</Button>
-                <Button variant={props.filter === "Active" ? "contained" : "outlined"} color="secondary" onClick={setActive}>Active</Button>
-                <Button variant={props.filter === "Completed" ? "contained" : "outlined"} color="success" onClick={setCompleted}>Completed</Button>
+                <Button variant={props.filter === "All" ? "contained" : "outlined"} size="small" color="error" onClick={setAll}>All</Button>
+                <Button variant={props.filter === "Active" ? "contained" : "outlined"} size="small" color="secondary" onClick={setActive}>Active</Button>
+                <Button variant={props.filter === "Completed" ? "contained" : "outlined"} size="small"  color="success" onClick={setCompleted}>Completed</Button>
                 {/*<button className={getBtnClass("All")} onClick={setAll}>All</button>*/}
                 {/*<button className={getBtnClass("Active")} onClick={setActive}>Active</button>*/}
                 {/*<button className={getBtnClass("Completed")} onClick={setCompleted}>Completed</button>*/}

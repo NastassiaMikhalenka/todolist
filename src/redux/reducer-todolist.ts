@@ -2,22 +2,27 @@ import {FilterValueType, TodolistsType} from "../App";
 
 type ActionsType = changeFilterACType | removeTodolistACType | changeTodolistTitleACType | addTodolistACType
 
+const CHANGE_FILTER = "CHANGE_FILTER";
+const REMOVE_TODOLIST = "REMOVE_TODOLIST";
+const CHANGE_TODOLIST_TITLE = "CHANGE_TODOLIST_TITLE";
+const ADD_TODOLIST = "ADD_TODOLIST";
+
 export const TodolistReducer = (state: Array<TodolistsType>, action: ActionsType): Array<TodolistsType> => {
     switch (action.type) {
-        case "CHANGE_FILTER": {
+        case CHANGE_FILTER: {
             return state.map(m => m.id === action.payload.todolistId ? {...m, filter: action.payload.filter} : m)
         }
-        case "REMOVE_TODOLIST": {
+        case REMOVE_TODOLIST: {
             return state.filter(tl => tl.id != action.payload.id)
         }
-        case "CHANGE_TODOLIST_TITLE": {
+        case CHANGE_TODOLIST_TITLE: {
             let todolist = state.find(tl => tl.id === action.payload.todolistId)
             if (todolist) {
                 todolist.title = action.payload.localTitle
             }
             return [...state]
         }
-        case "ADD_TODOLIST": {
+        case ADD_TODOLIST: {
             return [...state, {id: action.payload.newTodoListID, title: action.payload.newTitle, filter: "All"}]
         }
         default:

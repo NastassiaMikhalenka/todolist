@@ -34,7 +34,7 @@ export const changeFilterAC = (todolistId: string, filter: FilterValueType) => {
             filter: filter,
         },
     } as const
-}
+} // тест написан
 
 type removeTodolistACType = ReturnType<typeof removeTodolistAC>
 export const removeTodolistAC = (id: string) => {
@@ -44,7 +44,7 @@ export const removeTodolistAC = (id: string) => {
             id: id,
         },
     } as const
-}
+} // тест написан
 
 type changeTodolistTitleACType = ReturnType<typeof changeTodolistTitleAC>
 export const changeTodolistTitleAC = (todolistId: string, localTitle: string) => {
@@ -55,7 +55,7 @@ export const changeTodolistTitleAC = (todolistId: string, localTitle: string) =>
             localTitle: localTitle,
         },
     } as const
-}
+} // тест написан
 
 type addTodolistACType = ReturnType<typeof addTodolistAC>
 export const addTodolistAC = (newTitle: string, newTodoListID: string) => {
@@ -66,4 +66,4 @@ export const addTodolistAC = (newTitle: string, newTodoListID: string) => {
             newTodoListID: newTodoListID,
         },
     } as const
-}
+} // тест написан

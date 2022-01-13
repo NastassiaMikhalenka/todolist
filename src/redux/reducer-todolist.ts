@@ -13,7 +13,10 @@ export type addTodolistACType = ReturnType<typeof addTodolistAC>
 export type changeTodolistTitleACType = ReturnType<typeof changeTodolistTitleAC>
 export type changeFilterACType = ReturnType<typeof changeFilterAC>
 
-export const TodolistReducer = (state: Array<TodolistsType>, action: ActionsType): Array<TodolistsType> => {
+
+let initialState: Array<TodolistsType> = []
+
+export const TodolistReducer = (state: Array<TodolistsType> = initialState, action: ActionsType): Array<TodolistsType> => {
     switch (action.type) {
         case CHANGE_FILTER: {
             return state.map(m => m.id === action.payload.todolistId ? {...m, filter: action.payload.filter} : m)

@@ -1,5 +1,5 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {FilterValueType, TaskType, TodolistsType} from "./App";
+import React, {useCallback} from "react";
+import {TaskType, TodolistsType} from "./App";
 import './App.css';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
@@ -9,7 +9,8 @@ import Button from '@mui/material/Button';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/store";
 import {changeFilterAC, changeTodolistTitleAC, removeTodolistAC} from "./redux/reducer-todolist";
-import {addTaskAC, changeStatusAC, changeTaskTitleAC, removeTaskAC} from "./redux/reducer-tasks";
+import {addTaskAC} from "./redux/reducer-tasks";
+import {Task} from "./components/Task";
 
 type PropsType = {
     // title: string
@@ -53,9 +54,9 @@ export function Todolist(props: PropsType) {
 
     const dispatch = useDispatch()
 
-    const setAll = () => dispatch(changeFilterAC(props.todolistId, "All"))
-    const setActive = () => dispatch(changeFilterAC(props.todolistId, "Active"))
-    const setCompleted = () => dispatch(changeFilterAC(props.todolistId, "Completed"))
+    const setAll = useCallback(() => dispatch(changeFilterAC(props.todolistId, "All")), [props.todolistId, dispatch])
+    const setActive = useCallback(() => dispatch(changeFilterAC(props.todolistId, "Active")), [props.todolistId, dispatch])
+    const setCompleted = useCallback(() => dispatch(changeFilterAC(props.todolistId, "Completed")), [props.todolistId, dispatch])
     if (todolist.filter === "Active") {
         tasks = tasks.filter(elem => !elem.isDone)
     }
@@ -63,45 +64,35 @@ export function Todolist(props: PropsType) {
         tasks = tasks.filter(elem => elem.isDone)
     }
 
-    const callbackAddTaskHandler = (title: string) => {
+    const callbackAddTaskHandler = useCallback((title: string) => {
         dispatch(addTaskAC(props.todolistId, title))
-    }
-    const callbackTitleTodoListHandler = (localTitle: string) => {
+    }, [props.todolistId, dispatch])
+
+    const callbackTitleTodoListHandler = useCallback((localTitle: string) => {
         dispatch(changeTodolistTitleAC(props.todolistId, localTitle))
-    }
+    }, [props.todolistId, dispatch])
 
+    const removeTodolist = useCallback(() => {
+        dispatch(removeTodolistAC(props.todolistId))
+    }, [props.todolistId, dispatch])
 
-    const tasksJsx = tasks.map(elem => {
-        const changeStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
-            return dispatch(changeStatusAC(props.todolistId, elem.id, e.currentTarget.checked))
-        }
-        const callbackHandlerSpan = (localTitle: string) => {
-            dispatch(changeTaskTitleAC(props.todolistId, localTitle, elem.id))
-        }
-        return (
-            <li key={elem.id} className={elem.isDone ? "is-Done" : ''}>
-                <input
-                    type="checkbox"
-                    checked={elem.isDone}
-                    onChange={changeStatus}/>
-                <EditableSpan title={elem.title} callback={callbackHandlerSpan}/>
-                <IconButton aria-label="delete"
-                            onClick={() => dispatch(removeTaskAC(props.todolistId, elem.id))}>
-                    <DeleteIcon/>
-                </IconButton>
-            </li>
-        )
-    })
     return (
         <div>
             <EditableSpan title={todolist.title} callback={callbackTitleTodoListHandler}/>
             <IconButton size="small" aria-label="delete"
-                        onClick={() => dispatch(removeTodolistAC(props.todolistId))}>
+                        onClick={removeTodolist}>
                 <DeleteIcon/>
             </IconButton>
             <AddItemForm callback={callbackAddTaskHandler}/>
             <ul>
-                {tasksJsx}
+                {tasks.map(elem => {
+                    return <Task
+                        key={elem.id}
+                        todolistId={props.todolistId}
+                        taskId={elem.id}
+                    />
+                })
+                }
             </ul>
             <div>
                 <Button variant={todolist.filter === "All" ? "contained" : "outlined"} size="small" color="error"

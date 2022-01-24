@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
@@ -6,12 +6,13 @@ type PropsType = {
     callback: (title: string) =>void
 }
 
-export const AddItemForm = (props: PropsType) => {
+export const AddItemForm = React.memo((props: PropsType) => {
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<boolean>(false)
     // const errorMessage = error ? <div>Title is required</div> : null
+    console.log('AddItemForm')
 
-    const addTask = () => {
+    const addTask = useCallback(() => {
         const newTitle = title.trim()
         if(title){
             props.callback(newTitle)
@@ -19,11 +20,13 @@ export const AddItemForm = (props: PropsType) => {
             setError(true)
         }
         setTitle("")
-    }
-    const changeTitle = (e: ChangeEvent<HTMLInputElement>): void => {
+    }, [title])
+
+    const changeTitle = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
         setTitle(e.currentTarget.value)
         setError(false)
-    }
+    }, [title])
+
     const onKeyPress = (e: KeyboardEvent<HTMLInputElement>): void => {
         if (e.key === "Enter") {
             addTask();
@@ -50,4 +53,4 @@ export const AddItemForm = (props: PropsType) => {
             {/*{errorMessage}*/}
         </div>
     )
-}
+})

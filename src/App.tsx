@@ -1,24 +1,24 @@
-import React, {useReducer, useState} from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {Todolist} from "./Todolist";
-import {v1} from "uuid";
+// import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./components/AppBar";
 import {Container, Grid, Paper} from "@mui/material";
 import {
     addTodolistAC,
-    changeFilterAC,
-    changeTodolistTitleAC,
-    removeTodolistAC,
-    TodolistReducer
+    // changeFilterAC,
+    // changeTodolistTitleAC,
+    // removeTodolistAC,
+    // TodolistReducer
 } from "./redux/reducer-todolist";
-import {
-    addTaskAC,
-    changeStatusAC,
-    changeTaskTitleAC,
-    removeTaskAC,
-    TaskReducer
-} from "./redux/reducer-tasks";
+// import {
+//     addTaskAC,
+//     changeStatusAC,
+//     changeTaskTitleAC,
+//     removeTaskAC,
+//     TaskReducer
+// } from "./redux/reducer-tasks";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/store";
 
@@ -115,7 +115,7 @@ function App() {
     //     // setTodolists(todolists.map(m => m.id === todolistId ? {...m, title: localTitle} : m))
     // }
 
-    const addTodolist = (newTitle: string) => {
+    const addTodolist = useCallback((newTitle: string) => {
         dispatch(addTodolistAC(newTitle))
         // let action = addTodolistAC(newTitle)
         // dispatchTodolists(action)
@@ -123,7 +123,7 @@ function App() {
         // let newTodoList: TodolistsType =  {id: newTodoListID, title: newTitle, filter: 'All'}
         // setTodolists([newTodoList, ...todolists])
         // setTasks({...tasks, [newTodoList.id]: []})
-    }
+    }, [dispatch])
 
     return (
         <div className="App">

@@ -57,11 +57,13 @@ export function Todolist(props: PropsType) {
     const setAll = useCallback(() => dispatch(changeFilterAC(props.todolistId, "All")), [props.todolistId, dispatch])
     const setActive = useCallback(() => dispatch(changeFilterAC(props.todolistId, "Active")), [props.todolistId, dispatch])
     const setCompleted = useCallback(() => dispatch(changeFilterAC(props.todolistId, "Completed")), [props.todolistId, dispatch])
+
+    let tasksForTodolist = tasks
     if (todolist.filter === "Active") {
-        tasks = tasks.filter(elem => !elem.isDone)
+        tasksForTodolist = tasksForTodolist.filter(elem => !elem.isDone)
     }
     if (todolist.filter === "Completed") {
-        tasks = tasks.filter(elem => elem.isDone)
+        tasksForTodolist = tasksForTodolist.filter(elem => elem.isDone)
     }
 
     const callbackAddTaskHandler = useCallback((title: string) => {
@@ -85,7 +87,7 @@ export function Todolist(props: PropsType) {
             </IconButton>
             <AddItemForm callback={callbackAddTaskHandler}/>
             <ul>
-                {tasks.map(elem => {
+                {tasksForTodolist.map(elem => {
                     return <Task
                         key={elem.id}
                         todolistId={props.todolistId}

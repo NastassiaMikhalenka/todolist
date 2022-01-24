@@ -7,26 +7,26 @@ type PropsType = {
 }
 
 export const EditableSpan = React.memo((props: PropsType) => {
-    let [localTitle, setLocalTitle] = useState(props.title)
+    let [title, setTitle] = useState(props.title)
     let [edit, setEdit] = useState(false)
     console.log('EditableSpan')
 
     const editHandler = () => {
         setEdit(true)
-        setLocalTitle(props.title)
+        setTitle(props.title)
     }
     const onBlurHandlerFALSE = () => {
         setEdit(false)
-        props.callback(localTitle)
+        props.callback(title)
     }
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>{
-        setLocalTitle(e.currentTarget.value)
+        setTitle(e.currentTarget.value)
     }
 
     return (
             edit
             ? <TextField id="standard-basic" label="change task" variant="standard" size="small"
-                         value={localTitle} onChange={onChangeHandler} onBlur={onBlurHandlerFALSE} autoFocus/>
+                         value={title} onChange={onChangeHandler} onBlur={onBlurHandlerFALSE} autoFocus/>
                 // <input value={localTitle} onChange={onChangeHandler} onBlur={onBlurHandlerFALSE} autoFocus/>
             : <span onDoubleClick={editHandler}>{props.title}</span>
     )

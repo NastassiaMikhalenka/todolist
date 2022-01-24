@@ -13,9 +13,11 @@ export const EditableSpan = React.memo((props: PropsType) => {
 
     const editHandler = () => {
         setEdit(true)
+        setLocalTitle(props.title)
     }
     const onBlurHandlerFALSE = () => {
         setEdit(false)
+        props.callback(localTitle)
     }
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>{
         setLocalTitle(e.currentTarget.value)
@@ -26,6 +28,6 @@ export const EditableSpan = React.memo((props: PropsType) => {
             ? <TextField id="standard-basic" label="change task" variant="standard" size="small"
                          value={localTitle} onChange={onChangeHandler} onBlur={onBlurHandlerFALSE} autoFocus/>
                 // <input value={localTitle} onChange={onChangeHandler} onBlur={onBlurHandlerFALSE} autoFocus/>
-            : <span onDoubleClick={editHandler}>{localTitle}</span>
+            : <span onDoubleClick={editHandler}>{props.title}</span>
     )
 })

@@ -1,40 +1,39 @@
-import React, {useCallback} from 'react';
-import {changeStatusAC, changeTaskTitleAC, removeTaskAC} from "../redux/reducer-tasks";
+import React, {ChangeEvent, useCallback} from 'react';
 import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../redux/store";
-import {TaskType} from "../App";
+import {TaskStatuses, TaskType} from "../api/todolists-api";
+
 
 export type TaskPropsType = {
+    task: TaskType
     todolistId: string
-    taskId: string
+    changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
+    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
+    removeTask: (taskId: string, todolistId: string) => void
 }
 
-export const Task = React.memo(({todolistId, taskId}: TaskPropsType) => {
-    const task = useSelector<AppRootStateType, TaskType>(state => state.tasks[todolistId]
-        .filter(task => task.id === taskId)[0])
+export const Task = React.memo((props: TaskPropsType) => {
 
-    const dispatch = useDispatch()
+    const changeStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        let newIsDoneValue = e.currentTarget.checked
+        props.changeTaskStatus(props.task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, props.todolistId)
+    }, [props.task.id, props.todolistId]);
 
-    const changeStatus = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        return dispatch(changeStatusAC(todolistId, taskId, e.currentTarget.checked))
-    }, [taskId, todolistId, dispatch])
-    const callbackHandlerSpan = useCallback((localTitle: string) => {
-        dispatch(changeTaskTitleAC(todolistId, localTitle, taskId))
-    }, [taskId, todolistId, dispatch])
-    const removeTask = useCallback(() => {
-        dispatch(removeTaskAC(todolistId, taskId))
-    }, [taskId, todolistId, dispatch])
+    const callbackHandlerSpan = useCallback((newValue: string) => {
+        props.changeTaskTitle(props.task.id, newValue, props.todolistId)
+    }, [props.task.id, props.todolistId]);
+
+    const removeTask = useCallback(() => props.removeTask(props.task.id, props.todolistId), [props.task.id, props.todolistId]);
 
     return (
-        <li key={taskId} className={task.isDone ? "is-Done" : ''}>
+        <li key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>
             <input
                 type="checkbox"
-                checked={task.isDone}
+                checked={props.task.status === TaskStatuses.Completed}
+                color="primary"
                 onChange={changeStatus}/>
-            <EditableSpan title={task.title} callback={callbackHandlerSpan}/>
+            <EditableSpan title={props.task.title} callback={callbackHandlerSpan}/>
             <IconButton aria-label="delete"
                         onClick={removeTask}>
                 <DeleteIcon/>

@@ -6,7 +6,7 @@ import ButtonAppBar from "./components/AppBar";
 import {Container, Grid, Paper} from "@mui/material";
 import {
     addTodoTC,
-    changeTodolistFilterAC, changeTodolistTitleAC,
+    changeTodolistFilterAC, changeTodolistTitleAC, changeTodolistTitleTC,
     FilterValuesType, removeTodoTC,
     setTodosTC,
     TodolistDomainType
@@ -59,8 +59,9 @@ function App() {
     }, []);
 
     const changeTodolistTitle = useCallback(function (id: string, title: string) {
-        const action = changeTodolistTitleAC(id, title);
-        dispatch(action);
+        // const action = changeTodolistTitleAC(id, title);
+        // dispatch(action);
+        dispatch(changeTodolistTitleTC(id, title))
     }, []);
 
 

@@ -64,7 +64,7 @@ export function Todolist(props: PropsType) {
                 <DeleteIcon/>
             </IconButton>
             <AddItemForm callback={callbackAddTaskHandler}/>
-            <ul>
+            <div>
                 {tasksForTodolist?.map(elem => {
                     return <Task
                         key={elem.id} task={elem} todolistId={props.id}
@@ -74,7 +74,7 @@ export function Todolist(props: PropsType) {
                     />
                 })
                 }
-            </ul>
+            </div>
             <div>
                 <Button variant={props.filter === "all" ? "contained" : "outlined"} size="small" color="error"
                         onClick={setAll}>All</Button>

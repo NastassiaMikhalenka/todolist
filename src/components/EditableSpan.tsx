@@ -25,9 +25,11 @@ export const EditableSpan = React.memo((props: PropsType) => {
 
     return (
             edit
-            ? <TextField id="standard-basic" label="change task" variant="standard" size="small"
-                         value={title} onChange={onChangeHandler} onBlur={onBlurHandlerFALSE} autoFocus/>
-                // <input value={localTitle} onChange={onChangeHandler} onBlur={onBlurHandlerFALSE} autoFocus/>
+                ? <TextField
+                    id="standard-required"
+                    variant="standard"
+                    value={title} onChange={onChangeHandler} onBlur={onBlurHandlerFALSE} autoFocus
+                />
             : <span onDoubleClick={editHandler}>{props.title}</span>
     )
 })

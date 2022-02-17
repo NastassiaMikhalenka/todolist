@@ -3,13 +3,12 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 type PropsType = {
-    callback: (title: string) =>void
+    callback: (title: string) => void
 }
 
 export const AddItemForm = React.memo((props: PropsType) => {
     const [title, setTitle] = useState<string>("")
     let [error, setError] = useState<string | null>(null)
-    // const errorMessage = error ? <div>Title is required</div> : null
     console.log('AddItemForm')
 
     const addItem = () => {
@@ -36,14 +35,8 @@ export const AddItemForm = React.memo((props: PropsType) => {
 
     return (
         <div>
-            <TextField variant="outlined"
-                       error={!!error}
-                       value={title}
-                       onChange={onChangeHandler}
-                       onKeyPress={onKeyPressHandler}
-                       label="Title"
-                       helperText={error}
-            />
+            <TextField id="filled-basic" label="Title" size="small" variant="filled" value={title} onChange={onChangeHandler}
+                       onKeyPress={onKeyPressHandler} helperText={error} error={!!error}/>
             <Button variant="contained" size="small" onClick={addItem}>+</Button>
         </div>
     )

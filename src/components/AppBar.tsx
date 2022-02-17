@@ -6,10 +6,17 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import {LinearProgress} from "@mui/material";
+import {CustomizedSnackbars} from "./ErrorSnackBar";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../redux/store";
+import {InitialStateStatusType} from "../app/app-reducer";
 
 export default function ButtonAppBar() {
+    const status = useSelector<AppRootStateType, InitialStateStatusType>((state) => state.app.status)
     return (
         <Box sx={{ flexGrow: 1 }}>
+            <CustomizedSnackbars/>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
@@ -26,6 +33,7 @@ export default function ButtonAppBar() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+                {status === 'loading' && <LinearProgress />}
             </AppBar>
         </Box>
     );

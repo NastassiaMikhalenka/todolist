@@ -145,6 +145,10 @@ export const addTaskTC = (todolistId: string, title: string): AppThunkType => (d
                 dispatch(setStatusAC('failed'))
             }
         })
+        .catch((error) => {
+            dispatch(setErrorAC(error.message))
+            dispatch(setStatusAC('failed'))
+        })
 }
 
 export type UpdateDomainTaskModelType = {
@@ -180,6 +184,19 @@ export const updateTaskTC = (todoId: string, taskId: string, domainModal: Update
     }
     todolistsAPI.updateTask(todoId, taskId, model)
         .then((res) => {
-            dispatch(updateTaskAC(taskId, domainModal, todoId));
+            if(res.data.resultCode === 0) {
+                dispatch(updateTaskAC(taskId, domainModal, todoId));
+            } else {
+                if (res.data.messages.length) {
+                    dispatch(setErrorAC(res.data.messages[0]))
+                } else {
+                    dispatch(setErrorAC('Some Error occurred'))
+                }
+                dispatch(setStatusAC('failed'))
+            }
+        })
+        .catch((error) => {
+            dispatch(setErrorAC(error.message))
+            dispatch(setStatusAC('failed'))
         })
 }

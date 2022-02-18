@@ -19,8 +19,15 @@ export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-export const TodolistsList = () => {
+type PropsType = {
+    demo?: boolean
+}
+
+export const TodolistsList = ({demo = false}: PropsType) => {
     useEffect(() => {
+        if (demo) {
+            return
+        }
         dispatch(setTodosTC())
     }, [])
 
@@ -80,17 +87,16 @@ export const TodolistsList = () => {
                         <Grid item key={tl.id}>
                             <Paper style={{padding: "10px"}}>
                                 <Todolist
-                                    id={tl.id}
-                                    title={tl.title}
+                                    todolist={tl}
                                     tasks={allTodolistTasks}
                                     removeTask={removeTask}
                                     changeFilter={changeFilter}
                                     addTask={addTask}
                                     changeTaskStatus={changeStatus}
-                                    filter={tl.filter}
                                     removeTodolist={removeTodolist}
                                     changeTaskTitle={changeTaskTitle}
                                     changeTodolistTitle={changeTodolistTitle}
+                                    demo={demo}
                                 />
                             </Paper>
                         </Grid>

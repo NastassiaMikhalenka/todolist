@@ -4,9 +4,10 @@ import TextField from '@mui/material/TextField';
 
 type PropsType = {
     callback: (title: string) => void
+    disabled?: boolean
 }
 
-export const AddItemForm = React.memo((props: PropsType) => {
+export const AddItemForm = React.memo(({disabled = false,...props}: PropsType) => {
     const [title, setTitle] = useState<string>("")
     let [error, setError] = useState<string | null>(null)
     console.log('AddItemForm')
@@ -35,9 +36,9 @@ export const AddItemForm = React.memo((props: PropsType) => {
 
     return (
         <div>
-            <TextField id="filled-basic" label="Title" size="small" variant="filled" value={title} onChange={onChangeHandler}
+            <TextField disabled={disabled} id="filled-basic" label="Title" size="small" variant="filled" value={title} onChange={onChangeHandler}
                        onKeyPress={onKeyPressHandler} helperText={error} error={!!error}/>
-            <Button variant="contained" size="small" onClick={addItem}>+</Button>
+            <Button variant="contained" size="small" onClick={addItem} disabled={disabled}>+</Button>
         </div>
     )
 })

@@ -7,14 +7,17 @@ import {useSelector} from "react-redux";
 import {AppRootStateType} from "../redux/store";
 import {InitialStateStatusType} from "./app-reducer";
 
+type PropsType = {
+    demo?: boolean
+}
 
-function App() {
+function App({demo = false}: PropsType) {
 
     return (
         <div className="App">
             <ButtonAppBar/>
             <Container fixed>
-              <TodolistsList />
+              <TodolistsList demo={demo}/>
             </Container>
         </div>
     );

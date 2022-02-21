@@ -37,38 +37,38 @@ export const TodolistsList = ({demo = false}: PropsType) => {
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
         dispatch(removeTaskTC(todolistId, id));
-    }, []);
+    }, [dispatch]);
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
         const action = changeTodolistFilterAC(todolistId, value);
         dispatch(action);
-    }, []);
+    }, [dispatch]);
 
     const addTask = useCallback(function (title: string, todolistId: string) {
         dispatch(addTaskTC(todolistId, title));
-    }, []);
+    }, [dispatch]);
 
     const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
         // const action = changeTaskStatusAC(id, status, todolistId);
         dispatch(updateTaskTC(todolistId, id, {status}));
-    }, []);
+    }, [dispatch]);
 
     const removeTodolist = useCallback(function (id: string) {
         dispatch(removeTodoTC(id));
-    }, []);
+    }, [dispatch]);
 
     const changeTaskTitle = useCallback(function (id: string, title: string, todolistId: string) {
         // const action = changeTaskTitleAC(id, newTitle, todolistId);
         // dispatch(changeTaskTitleAC(id, title, todolistId));
         dispatch(updateTaskTC(todolistId, id, {title}));
 
-    }, []);
+    }, [dispatch]);
 
     const changeTodolistTitle = useCallback(function (id: string, title: string) {
         // const action = changeTodolistTitleAC(id, title);
         // dispatch(action);
         dispatch(changeTodolistTitleTC(id, title))
-    }, []);
+    }, [dispatch]);
 
 
     const addTodolist = useCallback((title: string) => {

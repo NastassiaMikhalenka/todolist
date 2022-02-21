@@ -16,24 +16,24 @@ export type TaskPropsType = {
     removeTask: (taskId: string, todolistId: string) => void
 }
 
-export const Task = React.memo((props: TaskPropsType) => {
+export const Task = React.memo(({task, todolistId, changeTaskTitle, ...props}: TaskPropsType) => {
 
     const changeStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked
-        props.changeTaskStatus(props.task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, props.todolistId)
-    }, [props.task.id, props.todolistId]);
+        props.changeTaskStatus(task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, todolistId)
+    }, [task.id, todolistId]);
 
     const callbackHandlerSpan = useCallback((newValue: string) => {
-        props.changeTaskTitle(props.task.id, newValue, props.todolistId)
-    }, [props.task.id, props.todolistId]);
+        changeTaskTitle(task.id, newValue, todolistId)
+    }, [task.id, todolistId]);
 
-    const removeTask = useCallback(() => props.removeTask(props.task.id, props.todolistId), [props.task.id, props.todolistId]);
+    const removeTask = useCallback(() => props.removeTask(task.id, todolistId), [task.id, todolistId]);
 
     return (
-        <div key={props.task.id} className={classes.containerTask}>
+        <div key={task.id} className={classes.containerTask}>
         {/*<div key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>*/}
             <Checkbox  defaultChecked
-                       checked={props.task.status === TaskStatuses.Completed}
+                       checked={task.status === TaskStatuses.Completed}
                        onChange={changeStatus}
                        sx={{
                            color: '#17A2B8',
@@ -42,7 +42,7 @@ export const Task = React.memo((props: TaskPropsType) => {
                            },
                        }}
             />
-            <EditableSpan title={props.task.title} callback={callbackHandlerSpan}/>
+            <EditableSpan title={task.title} callback={callbackHandlerSpan}/>
             <IconButton
                 className={classes.iconButtonDelete}
                 aria-label="delete"

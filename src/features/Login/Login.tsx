@@ -8,15 +8,27 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
+import {useDispatch, useSelector} from "react-redux";
+import {loginTC} from "./reducer-auth";
+import {AppRootStateType} from "../../redux/store";
+import { Navigate } from "react-router-dom"
+import {LoginParamsType} from "../../api/todolists-api";
 
-type FormikErrorType = {
-    email?: string
-    password?: string
-    rememberMe?: boolean
-}
+
+// было заменено на Partial - необязательные значения в типизации TS
+// Omit - убрать значения, которые не нужны в типизации TS
+// Pick - выбрать значения, которые нужны в типизации TS
+// type FormikErrorType = {
+//     email?: string
+//     password?: string
+//     rememberMe?: boolean
+// }
 
 
 export const Login = () => {
+    const dispatch = useDispatch()
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -24,20 +36,34 @@ export const Login = () => {
             rememberMe: false
         },
         validate: (values) => {
-            const errors: FormikErrorType = {};
+            const errors: Partial<Omit<LoginParamsType, 'captcha'>> = {
+
+            };
             if (!values.email) {
                 errors.email = 'Required';
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                 errors.email = 'Invalid email address';
-            } else if(!values.password){
+            }
+            if (!values.password) {
                 errors.password = 'Required';
+            } else if( values.password.length < 3) {
+                errors.password = 'more 3'
             }
             return errors;
         },
         onSubmit: values => {
-            alert(JSON.stringify(values));
+            // alert('jk')
+            // debugger
+            dispatch(loginTC(values))
+
+            // alert(JSON.stringify(values));
         },
     })
+
+    if (isLoggedIn) {
+        return <Navigate to={'/'}/>
+    }
+    console.log(isLoggedIn)
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
@@ -54,7 +80,7 @@ export const Login = () => {
                         <p>Password: free</p>
                     </FormLabel>
                     <FormGroup>
-                        <TextField type="Email" label="Email" margin="normal"
+                        <TextField label="Email" margin="normal"
                                    {...formik.getFieldProps('email')}/>
                         {formik.errors.email ? <div style={{color: 'red'}}>{formik.errors.email}</div> : null}
                         <TextField type="password" label="Password"

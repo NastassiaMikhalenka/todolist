@@ -8,14 +8,25 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {LinearProgress} from "@mui/material";
 import {CustomizedSnackbars} from "./ErrorSnackBar";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../redux/store";
 import {InitialStateStatusType} from "../app/app-reducer";
+import {logoutTC} from "../features/Login/reducer-auth";
 
-export default function ButtonAppBar() {
+type PropsType = {
+    isLoggedIn: boolean
+}
+
+export default function ButtonAppBar({isLoggedIn}: PropsType) {
     const status = useSelector<AppRootStateType, InitialStateStatusType>((state) => state.app.status)
+    const dispatch = useDispatch()
+// useCallback
+    const logoutHandler = () => {
+        dispatch(logoutTC())
+    }
+
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{flexGrow: 1}}>
             <CustomizedSnackbars/>
             <AppBar position="static">
                 <Toolbar>
@@ -24,16 +35,18 @@ export default function ButtonAppBar() {
                         edge="start"
                         color="inherit"
                         aria-label="menu"
-                        sx={{ mr: 2 }}
+                        sx={{mr: 2}}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                         TODOAPP
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {isLoggedIn && <Button
+                        onClick={logoutHandler}
+                        color="inherit">Logout</Button>}
                 </Toolbar>
-                {status === 'loading' && <LinearProgress />}
+                {status === 'loading' && <LinearProgress/>}
             </AppBar>
         </Box>
     );

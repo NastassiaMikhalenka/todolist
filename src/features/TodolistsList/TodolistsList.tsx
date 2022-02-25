@@ -14,6 +14,7 @@ import {TaskStatuses, TaskType} from "../../api/todolists-api";
 import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
+import {Navigate} from 'react-router-dom';
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -24,16 +25,17 @@ type PropsType = {
 }
 
 export const TodolistsList = ({demo = false}: PropsType) => {
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const stateTodolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
+    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const dispatch = useDispatch()
+
     useEffect(() => {
-        if (demo) {
+        if (!isLoggedIn) {
             return
         }
         dispatch(setTodosTC())
     }, [])
-
-    const stateTodolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-    const dispatch = useDispatch()
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
         dispatch(removeTaskTC(todolistId, id));
@@ -74,6 +76,11 @@ export const TodolistsList = ({demo = false}: PropsType) => {
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodoTC(title));
     }, [dispatch]);
+
+
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
 
     return (
         <>

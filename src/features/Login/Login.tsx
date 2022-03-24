@@ -13,6 +13,7 @@ import {loginTC} from "./reducer-auth";
 import {AppRootStateType} from "../../redux/store";
 import { Navigate } from "react-router-dom"
 import {LoginParamsType} from "../../api/todolists-api";
+import classes from './login.module.css';
 
 
 // было заменено на Partial - необязательные значения в типизации TS
@@ -63,19 +64,13 @@ export const Login = () => {
     if (isLoggedIn) {
         return <Navigate to={'/'}/>
     }
-    console.log(isLoggedIn)
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit}>
                 <FormControl>
-                    <FormLabel>
-                        <p>To log in get registered
-                            <a href={'https://social-network.samuraijs.com/'}
-                               target={'_blank'}> here
-                            </a>
-                        </p>
-                        <p>or use common test account credentials:</p>
+                    <FormLabel className={classes.containerInfo}>
+                        <p>To log in use common test account credentials:</p>
                         <p>Email: free@samuraijs.com</p>
                         <p>Password: free</p>
                     </FormLabel>

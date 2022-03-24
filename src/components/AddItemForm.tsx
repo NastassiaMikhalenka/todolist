@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import classes from './AddItemForm.module.css';
 
 type PropsType = {
     callback: (title: string) => void
@@ -10,7 +11,6 @@ type PropsType = {
 export const AddItemForm = React.memo(({disabled = false,...props}: PropsType) => {
     const [title, setTitle] = useState<string>("")
     let [error, setError] = useState<string | null>(null)
-    console.log('AddItemForm')
 
     const addItem = () => {
         if (title.trim() !== '') {
@@ -35,8 +35,9 @@ export const AddItemForm = React.memo(({disabled = false,...props}: PropsType) =
     }
 
     return (
-        <div>
-            <TextField disabled={disabled} id="filled-basic" label="Title" size="small" variant="filled" value={title} onChange={onChangeHandler}
+        <div className={classes.container}>
+            <TextField disabled={disabled} id="standard-basic" label="Title" size="small"
+                       variant="standard" value={title} onChange={onChangeHandler}
                        onKeyPress={onKeyPressHandler} helperText={error} error={!!error}/>
             <Button variant="contained" size="small" onClick={addItem} disabled={disabled}>+</Button>
         </div>

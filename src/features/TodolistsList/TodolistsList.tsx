@@ -35,7 +35,7 @@ export const TodolistsList = ({demo = false}: PropsType) => {
             return
         }
         dispatch(setTodosTC())
-    }, [])
+    }, [dispatch, isLoggedIn])
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
         dispatch(removeTaskTC(todolistId, id));
@@ -92,7 +92,7 @@ export const TodolistsList = ({demo = false}: PropsType) => {
                     let allTodolistTasks = tasks[tl.id];
                     return (
                         <Grid item key={tl.id}>
-                            <Paper style={{padding: "10px"}}>
+                            <Paper style={{padding: "20px"}}>
                                 <Todolist
                                     todolist={tl}
                                     tasks={allTodolistTasks}

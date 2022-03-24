@@ -7,7 +7,6 @@ import {Checkbox} from "@mui/material";
 import classes from "./task.module.css";
 
 
-
 export type TaskPropsType = {
     task: TaskType
     todolistId: string
@@ -16,39 +15,33 @@ export type TaskPropsType = {
     removeTask: (taskId: string, todolistId: string) => void
 }
 
-export const Task = React.memo(({task, todolistId, changeTaskTitle, ...props}: TaskPropsType) => {
-
+export const Task = React.memo(({task, todolistId, changeTaskTitle, removeTask, changeTaskStatus}: TaskPropsType) => {
+    const taskId = task.id
     const changeStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked
-        props.changeTaskStatus(task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, todolistId)
-    }, [task.id, todolistId]);
+        changeTaskStatus(taskId, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, todolistId)
+    }, [taskId, todolistId, changeTaskStatus]);
 
     const callbackHandlerSpan = useCallback((newValue: string) => {
-        changeTaskTitle(task.id, newValue, todolistId)
-    }, [task.id, todolistId]);
+        changeTaskTitle(taskId, newValue, todolistId)
+    }, [taskId, todolistId, changeTaskTitle]);
 
-    const removeTask = useCallback(() => props.removeTask(task.id, todolistId), [task.id, todolistId]);
+    const removeTaskHandler = useCallback(() => removeTask(taskId, todolistId), [taskId, todolistId, removeTask]);
 
     return (
-        <div key={task.id} className={classes.containerTask}>
-        {/*<div key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>*/}
-            <Checkbox  defaultChecked
-                       checked={task.status === TaskStatuses.Completed}
-                       onChange={changeStatus}
-                       sx={{
-                           color: '#17A2B8',
-                           '&.Mui-checked': {
-                               color: '#17A2B8',
-                           },
-                       }}
-            />
-            <EditableSpan title={task.title} callback={callbackHandlerSpan}/>
+        <div key={taskId} className={classes.containerTask}>
+            <div>
+                <Checkbox checked={task.status === TaskStatuses.Completed}
+                          onChange={changeStatus}
+                />
+                <EditableSpan title={task.title} callback={callbackHandlerSpan}/>
+            </div>
             <IconButton
                 className={classes.iconButtonDelete}
                 aria-label="delete"
-                        size="small"
-                        onClick={removeTask}
-                        >
+                size="small"
+                onClick={removeTaskHandler}
+            >
                 <DeleteIcon fontSize="inherit"/>
             </IconButton>
         </div>

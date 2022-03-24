@@ -1,0 +1,13 @@
+.containerInfo {
+    text-align: center;
+}
+
+.containerInfo a {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+.containerInfo a:hover {
+    font-weight: bold;
+}

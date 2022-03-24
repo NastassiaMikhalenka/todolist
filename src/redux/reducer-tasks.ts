@@ -177,7 +177,6 @@ export const updateTaskTC = (todoId: string, taskId: string, domainModal: Update
     })
 
     if (!currentTask) {
-        console.log('Not found')
         return
     }
     const model: UpdateTaskModelType = {

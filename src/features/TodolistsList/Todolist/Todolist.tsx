@@ -24,15 +24,23 @@ type PropsType = {
     demo?: boolean
 }
 
-export function Todolist({demo = false, todolist,tasks, addTask, changeFilter, changeTodolistTitle, ...props}: PropsType) {
+export function Todolist({
+                             demo = false,
+                             todolist,
+                             tasks,
+                             addTask,
+                             changeFilter,
+                             changeTodolistTitle,
+                             ...props
+                         }: PropsType) {
     const dispatch = useDispatch()
     useEffect(() => {
-        if (demo) {
-            return
-        }
+        // if (demo) {
+        //     return
+        // }
         dispatch(fetchTasksTC(todolist.id))
 
-    }, [])
+    }, [dispatch, todolist.id])
 
     const setAll = useCallback(() => changeFilter('all', todolist.id), [todolist.id, changeFilter])
     const setActive = useCallback(() => changeFilter('active', todolist.id), [todolist.id, changeFilter])
@@ -60,15 +68,17 @@ export function Todolist({demo = false, todolist,tasks, addTask, changeFilter, c
 
     return (
         <div>
-            <EditableSpan title={todolist.title} callback={callbackTitleTodoListHandler}/>
-            <IconButton size="small" aria-label="delete"
-                        onClick={removeTodolist}
-                        disabled={todolist.entityStatus === 'loading'}>
-                <DeleteIcon/>
-            </IconButton>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                <EditableSpan title={todolist.title} callback={callbackTitleTodoListHandler}/>
+                <IconButton size="small" aria-label="delete"
+                            onClick={removeTodolist}
+                            disabled={todolist.entityStatus === 'loading'}>
+                    <DeleteIcon/>
+                </IconButton>
+            </div>
             <AddItemForm callback={callbackAddTaskHandler}
                          disabled={todolist.entityStatus === 'loading'}/>
-            <div>
+            <div style={{minHeight: '20px'}}>
                 {tasksForTodolist?.map(elem => {
                     return <Task
                         key={elem.id} task={elem} todolistId={todolist.id}
@@ -79,15 +89,18 @@ export function Todolist({demo = false, todolist,tasks, addTask, changeFilter, c
                 })
                 }
             </div>
-            <div>
-                <Button variant={todolist.filter === "all" ? "contained" : "outlined"} size="small" color="error"
-                        onClick={setAll}>All</Button>
-                <Button variant={todolist.filter === "active" ? "contained" : "outlined"} size="small"
-                        color="secondary"
-                        onClick={setActive}>Active</Button>
-                <Button variant={todolist.filter === "completed" ? "contained" : "outlined"} size="small"
-                        color="success" onClick={setCompleted}>Completed</Button>
-            </div>
+            {
+                tasks.length > 0
+                    ? <div>
+                        <Button variant={todolist.filter === "all" ? "contained" : "outlined"} size="small"
+                                onClick={setAll}>All</Button>
+                        <Button variant={todolist.filter === "active" ? "contained" : "outlined"} size="small"
+                                onClick={setActive}>Active</Button>
+                        <Button variant={todolist.filter === "completed" ? "contained" : "outlined"} size="small"
+                                onClick={setCompleted}>Completed</Button>
+                    </div>
+                    : <></>
+            }
         </div>
     );
 }

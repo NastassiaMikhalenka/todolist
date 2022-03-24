@@ -6,7 +6,7 @@ import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import {Login} from "../features/Login/Login";
 import { Routes, Route } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {initializeAppTC, setIsInitializedAC} from "./app-reducer";
+import {initializeAppTC} from "./app-reducer";
 import {AppRootStateType} from "../redux/store";
 
 type PropsType = {
@@ -21,7 +21,7 @@ function App({demo = false}: PropsType) {
 
     useEffect(() =>{
         dispatch(initializeAppTC())
-    }, [])
+    }, [dispatch]) // ???
 
     if(!isInitialized){
         return <div

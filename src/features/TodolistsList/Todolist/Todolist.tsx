@@ -93,8 +93,10 @@ export function Todolist({
                 tasks.length > 0
                     ? <div>
                         <Button variant={todolist.filter === "all" ? "contained" : "outlined"} size="small"
-                                onClick={setAll}>All</Button>
-                        <Button variant={todolist.filter === "active" ? "contained" : "outlined"} size="small"
+                                onClick={setAll}
+                                style={{marginRight: '7px'}}>All</Button>
+                        <Button style={{marginRight: '7px'}}
+                                variant={todolist.filter === "active" ? "contained" : "outlined"} size="small"
                                 onClick={setActive}>Active</Button>
                         <Button variant={todolist.filter === "completed" ? "contained" : "outlined"} size="small"
                                 onClick={setCompleted}>Completed</Button>

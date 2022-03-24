@@ -1,7 +1,8 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import Button from '@mui/material/Button';
+import Button, {ButtonProps} from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import classes from './AddItemForm.module.css';
+import { styled } from '@mui/material/styles';
 
 type PropsType = {
     callback: (title: string) => void
@@ -39,7 +40,7 @@ export const AddItemForm = React.memo(({disabled = false,...props}: PropsType) =
             <TextField disabled={disabled} id="standard-basic" label="Title" size="small"
                        variant="standard" value={title} onChange={onChangeHandler}
                        onKeyPress={onKeyPressHandler} helperText={error} error={!!error}/>
-            <Button variant="contained" size="small" onClick={addItem} disabled={disabled}>+</Button>
+            <Button variant="outlined" onClick={addItem} disabled={disabled}>Add</Button>
         </div>
     )
 })

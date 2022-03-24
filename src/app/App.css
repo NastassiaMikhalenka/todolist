@@ -1,20 +1,9 @@
 .App {
-  /*padding: 30px;*/
-  /*display: flex;*/
+    max-width: 1440px;
+    margin: auto;
 }
 
 .appContainer{
     display: flex;
+    max-width: 1440px;
 }
-/*.is-Done {*/
-/*   opacity: 0.4;*/
-/*}*/
-
-/*.activeFilterBtn {*/
-/*    background-color: salmon;*/
-/*}*/
-
-/*.error{*/
-/*    outline: none;*/
-/*    border: red solid 1px;*/
-/*}*/
